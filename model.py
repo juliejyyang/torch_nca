@@ -40,12 +40,18 @@ class CAModel(nn.Module):
             self.conv2.bias.zero_()
 
     def forward(self, x, label, step_size=1.0, fire_rate=None):
+        return self.step_with_embed(x, self.embed(label), step_size, fire_rate)
+
+    # same update rule as forward(), but takes a precomputed (B, E) embedding
+    # directly instead of looking one up by integer label -- lets callers
+    # (e.g. eval_interpolate.py) drive the model with embeddings that were
+    # never assigned to any label, such as an interpolation between two of them.
+    def step_with_embed(self, x, embed, step_size=1.0, fire_rate=None):
         pre_life_mask = get_living_mask(x)
 
         y = self.perceive(x)
 
-        e = self.embed(label)                             # (B, E)
-        e = e[:, :, None, None].expand(-1, -1, x.shape[2], x.shape[3])  # (B, E, H, W)
+        e = embed[:, :, None, None].expand(-1, -1, x.shape[2], x.shape[3])  # (B, E, H, W)
         y = torch.cat([y, e], dim=1)                      # (B, 48+E, H, W)
 
         dx = self.conv1(y)
