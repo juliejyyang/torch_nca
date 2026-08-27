@@ -25,6 +25,7 @@ import numpy as np
 import PIL.Image
 import PIL.ImageDraw
 from IPython.display import HTML, Image, clear_output, display
+from moviepy.video.io.ffmpeg_writer import FFMPEG_VideoWriter
 
 os.environ['FFMPEG_BINARY'] = 'ffmpeg'
 if IN_NOTEBOOK:

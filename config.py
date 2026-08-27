@@ -13,3 +13,4 @@ EXPERIMENT_MAP = {"Growing":0, "Persistent":1, "Regenerating":2}
 EXPERIMENT_N = EXPERIMENT_MAP[EXPERIMENT_TYPE]
 USE_PATTERN_POOL = [0, 1, 1][EXPERIMENT_N]
 DAMAGE_N = [0, 0, 3][EXPERIMENT_N]  # Number of patterns to damage in a batch
+TRAIN_STEPS = 8000      # training.py runs this many steps (matches the 8000-step convention used below)

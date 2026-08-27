@@ -59,7 +59,7 @@ def train_step(x0, label, iter_n):
     return x.detach(), loss.item()
 
 
-for i in range(1):
+for i in range(TRAIN_STEPS):
     if USE_PATTERN_POOL:
         batch = pool.sample(BATCH_SIZE)
         x0 = batch.x

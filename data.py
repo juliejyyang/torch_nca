@@ -28,7 +28,8 @@ def to_rgb(x):
     rgb, a = x[:, :3], to_alpha(x)
     return 1.0 - a + rgb
 
-def make_seed(size, n=1):
-  x = torch.zeros((n, size, size, CHANNEL_N), dtype = torch.float32, device = 'cuda')
+def make_seed(size, n=1, device='cpu'):
+  x = torch.zeros((n, CHANNEL_N, size, size), dtype=torch.float32, device=device)
   # single living cell in the center: alpha + all hidden channels = 1
-  return x.at[:, size//2, size//2, 3:].set(1.0)
+  x[:, 3:, size // 2, size // 2] = 1.0
+  return x
